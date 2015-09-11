@@ -72,6 +72,7 @@ import com.android.settings.applications.InstalledAppDetails;
 import com.android.settings.applications.ManageApplications;
 import com.android.settings.applications.ProcessStatsUi;
 import com.android.settings.bluetooth.BluetoothSettings;
+import com.android.settings.defense.DefDroidSettings;
 import com.android.settings.dashboard.DashboardCategory;
 import com.android.settings.dashboard.DashboardSummary;
 import com.android.settings.dashboard.DashboardTile;
@@ -268,6 +269,7 @@ public class SettingsActivity extends Activity
             SecuritySettings.class.getName(),
             UsageAccessSettings.class.getName(),
             PrivacySettings.class.getName(),
+            DefDroidSettings.class.getName(),
             DeviceAdminSettings.class.getName(),
             AccessibilitySettings.class.getName(),
             CaptionPropertiesFragment.class.getName(),

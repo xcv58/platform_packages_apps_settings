@@ -170,6 +170,14 @@
                 android:icon="@drawable/ic_settings_security"
                 />
 
+        <!-- DefDroid -->
+        <dashboard-tile
+                android:id="@+id/defdroid_settings" 
+                android:title="@string/defdroid_settings"
+                android:fragment="com.android.settings.defense.DefDroidSettings"
+                android:icon="@drawable/ic_settings_defdroid"
+                />
+
         <!-- Account -->
         <dashboard-tile
                 android:id="@+id/account_settings"

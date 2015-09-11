@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory  android:title="@string/defense_pref_header_general">
+        <CheckBoxPreference
+                android:key="defense_mode"
+                android:title="@string/defense_pref_title_defense_mode"
+                android:summary="@string/defense_pref_description_defense_mode"
+                android:defaultValue="true" />
+        <Preference
+                android:fragment="com.android.settings.defense.DefDroidWhiteList"
+                android:key="whitelist"
+                android:summary="@string/defdroid_whitelist_summary"
+                android:title="@string/defdroid_whitelist_title" />
+    </PreferenceCategory>
+    <PreferenceCategory  android:title="@string/defense_pref_header_checker">
+        <PreferenceScreen android:key="enable_disable_guardians"
+                          android:title="@string/enable_disable_guardians_title"
+                          android:summary="@string/enable_disable_guardians_summary"
+                          android:persistent="false">
+            <CheckBoxPreference
+                    android:key="enable_wakelock_guardian"
+                    android:title="@string/defense_pref_title_enable_wakelock_guardian"
+                    android:defaultValue="true"/>
+            <CheckBoxPreference
+                    android:key="enable_gps_guardian"
+                    android:title="@string/defense_pref_title_enable_gps_guardian"
+                    android:defaultValue="true"/>
+            <CheckBoxPreference
+                    android:key="enable_alarm_guardian"
+                    android:title="@string/defense_pref_title_enable_alarm_guardian"
+                    android:defaultValue="true"/>
+            <CheckBoxPreference
+                    android:key="enable_sensor_guardian"
+                    android:title="@string/defense_pref_title_enable_sensor_guardian"
+                    android:defaultValue="true"/>
+            <CheckBoxPreference
+                    android:key="enable_network_guardian"
+                    android:title="@string/defense_pref_title_enable_network_guardian"
+                    android:defaultValue="true"/>
+            <CheckBoxPreference
+                    android:key="enable_storage_guardian"
+                    android:title="@string/defense_pref_title_enable_storage_guardian"
+                    android:defaultValue="true"/>
+            <CheckBoxPreference
+                    android:key="enable_notification_guardian"
+                    android:title="@string/defense_pref_title_enable_notification_guardian"
+                    android:defaultValue="true"/>
+            <CheckBoxPreference
+                    android:key="enable_cpu_guardian"
+                    android:title="@string/defense_pref_title_enable_cpu_guardian"
+                    android:defaultValue="true"/>
+            <CheckBoxPreference
+                    android:key="enable_bluetooth_guardian"
+                    android:title="@string/defense_pref_title_enable_bluetooth_guardian"
+                    android:defaultValue="true"/>
+        </PreferenceScreen>
+        <PreferenceScreen android:key="guardian_parameters"
+                          android:title="@string/guardian_parameters_title"
+                          android:summary="@string/guardian_parameters_summary"
+                          android:persistent="false">
+            <ListPreference
+                    android:key="rate_limit_window"
+                    android:title="@string/defense_pref_title_rate_limit_window"
+                    android:entries="@array/defense_pref_rate_limit_window_titles"
+                    android:entryValues="@array/defense_pref_rate_limit_window_values"
+                    android:defaultValue="3"
+                    android:negativeButtonText="@null"
+                    android:positiveButtonText="@null" />
+            <ListPreference
+                    android:key="gc_window"
+                    android:title="@string/defense_pref_title_gc_window"
+                    android:entries="@array/defense_pref_gc_window_titles"
+                    android:entryValues="@array/defense_pref_gc_window_values"
+                    android:defaultValue="10"
+                    android:negativeButtonText="@null"
+                    android:positiveButtonText="@null" />
+            <ListPreference
+                    android:key="wakelock_checker_frequency"
+                    android:title="@string/defense_pref_title_wakelock_checker_frequency"
+                    android:entries="@array/defense_pref_wakelock_checker_frequency_titles"
+                    android:entryValues="@array/defense_pref_wakelock_checker_frequency_values"
+                    android:defaultValue="3"
+                    android:negativeButtonText="@null"
+                    android:positiveButtonText="@null" />
+            <EditTextPreference
+                    android:key="wakelock_duration_cutoff"
+                    android:title="@string/defense_pref_title_wakelock_duration_cutoff"
+                    android:defaultValue="5"
+                    android:selectAllOnFocus="true"
+                    android:inputType="numberDecimal"
+                    android:singleLine="true"
+                    android:maxLines="1" />
+            <EditTextPreference
+                    android:key="wakelock_rate_limit"
+                    android:title="@string/defense_pref_title_wakelock_rate_limit"
+                    android:defaultValue="0.05"
+                    android:selectAllOnFocus="true"
+                    android:inputType="numberDecimal"
+                    android:singleLine="true"
+                    android:maxLines="1" />
+            <ListPreference
+                    android:key="gps_checker_frequency"
+                    android:title="@string/defense_pref_title_gps_checker_frequency"
+                    android:entries="@array/defense_pref_gps_checker_frequency_titles"
+                    android:entryValues="@array/defense_pref_gps_checker_frequency_values"
+                    android:defaultValue="3"
+                    android:negativeButtonText="@null"
+                    android:positiveButtonText="@null" />
+            <EditTextPreference
+                    android:key="gps_duration_cutoff"
+                    android:title="@string/defense_pref_title_gps_duration_cutoff"
+                    android:defaultValue="5"
+                    android:selectAllOnFocus="true"
+                    android:inputType="numberDecimal"
+                    android:singleLine="true"
+                    android:maxLines="1" />
+            <EditTextPreference
+                    android:key="gps_rate_limit"
+                    android:title="@string/defense_pref_title_gps_rate_limit"
+                    android:defaultValue="0.05"
+                    android:selectAllOnFocus="true"
+                    android:inputType="numberDecimal"
+                    android:singleLine="true"
+                    android:maxLines="1" />
+            <ListPreference
+                    android:key="alarm_checker_frequency"
+                    android:title="@string/defense_pref_title_alarm_checker_frequency"
+                    android:entries="@array/defense_pref_alarm_checker_frequency_titles"
+                    android:entryValues="@array/defense_pref_alarm_checker_frequency_values"
+                    android:defaultValue="5"
+                    android:negativeButtonText="@null"
+                    android:positiveButtonText="@null" />
+            <EditTextPreference
+                    android:key="alarm_rate_limit"
+                    android:title="@string/defense_pref_title_alarm_rate_limit"
+                    android:defaultValue="0.05"
+                    android:selectAllOnFocus="true"
+                    android:inputType="numberDecimal"
+                    android:singleLine="true"
+                    android:maxLines="1" />
+            <ListPreference
+                    android:key="sensor_checker_frequency"
+                    android:title="@string/defense_pref_title_sensor_checker_frequency"
+                    android:entries="@array/defense_pref_sensor_checker_frequency_titles"
+                    android:entryValues="@array/defense_pref_sensor_checker_frequency_values"
+                    android:defaultValue="5"
+                    android:negativeButtonText="@null"
+                    android:positiveButtonText="@null" />
+            <EditTextPreference
+                    android:key="sensor_rate_limit"
+                    android:title="@string/defense_pref_title_sensor_rate_limit"
+                    android:defaultValue="20"
+                    android:selectAllOnFocus="true"
+                    android:inputType="numberDecimal"
+                    android:singleLine="true"
+                    android:maxLines="1" />
+            <ListPreference
+                    android:key="network_checker_frequency"
+                    android:title="@string/defense_pref_title_network_checker_frequency"
+                    android:entries="@array/defense_pref_network_checker_frequency_titles"
+                    android:entryValues="@array/defense_pref_network_checker_frequency_values"
+                    android:defaultValue="3"
+                    android:negativeButtonText="@null"
+                    android:positiveButtonText="@null" />
+            <EditTextPreference
+                    android:key="network_data_limit"
+                    android:title="@string/defense_pref_title_network_data_limit"
+                    android:defaultValue="3"
+                    android:selectAllOnFocus="true"
+                    android:inputType="numberDecimal"
+                    android:singleLine="true"
+                    android:maxLines="1" />
+            <EditTextPreference
+                    android:key="network_max_badness"
+                    android:title="@string/defense_pref_title_network_max_badness"
+                    android:defaultValue="3"
+                    android:selectAllOnFocus="true"
+                    android:inputType="numberDecimal"
+                    android:singleLine="true"
+                    android:maxLines="1" />
+        </PreferenceScreen>
+    </PreferenceCategory>
+    <PreferenceCategory  android:title="@string/defense_pref_header_log">
+        <Preference
+                android:fragment="com.android.settings.defense.DefDroidActionLog"
+                android:key="action_log"
+                android:summary="@string/defdroid_action_log_summary"
+                android:title="@string/defdroid_action_log_title" />
+    </PreferenceCategory>
+</PreferenceScreen>
