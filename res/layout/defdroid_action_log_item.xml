@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="horizontal" android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+    <TextView
+            android:id="@+id/extraText"
+            android:paddingLeft="6dp"
+            android:layout_alignParentLeft="true"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="@color/defdroid_log_extra_color"
+            />
+    <TextView
+            android:textColor="@color/defdroid_log_text_color"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:paddingLeft="4dp"
+            android:paddingRight="3dp"
+            android:id="@+id/actionText"
+            android:layout_width="70dp"
+            android:typeface="monospace"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/extraText"
+            android:layout_height="wrap_content" />
+    <TextView
+            android:textColor="@color/defdroid_log_text_color"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:id="@+id/appText"
+            android:layout_width="80dp"
+            android:typeface="monospace"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/extraText"
+            android:layout_toRightOf="@+id/actionText"/>
+    <TextView
+            android:textColor="@color/defdroid_log_text_color"
+            android:textSize="12sp"
+            android:id="@+id/contentText"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/extraText"
+            android:layout_toRightOf="@+id/appText" />
+</RelativeLayout>
