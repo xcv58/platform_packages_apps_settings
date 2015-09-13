@@ -4,7 +4,7 @@ if [ $# -ne 1 ]; then
   exit 1
 fi
 product=$1
-apk=out/target/product/$product/system/priv-app/Settings.apk
+apk=out/target/product/$product/system/priv-app/Settings/Settings.apk
 if [ ! -f "$apk" ]; then
   echo "Apk $apk does not exist"
   exit 1
@@ -16,6 +16,6 @@ if [ $? -ne 0 ]; then
 fi 
 adb root
 adb remount
-adb shell cp /system/priv-app/Settings.apk /system/priv-app/Settings.apk.bak
-adb shell cp /sdcard/Settings.apk /system/priv-app/Settings.apk
+adb shell cp /system/priv-app/Settings/Settings.apk /system/priv-app/Settings/Settings.apk.bak
+adb shell cp /sdcard/Settings.apk /system/priv-app/Settings/Settings.apk
 adb reboot
