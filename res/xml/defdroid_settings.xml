@@ -32,7 +32,7 @@
             <CheckBoxPreference
                     android:key="enable_sensor_guardian"
                     android:title="@string/defense_pref_title_enable_sensor_guardian"
-                    android:defaultValue="true"/>
+                    android:defaultValue="false"/>
             <CheckBoxPreference
                     android:key="enable_network_guardian"
                     android:title="@string/defense_pref_title_enable_network_guardian"
