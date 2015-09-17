@@ -66,6 +66,7 @@ public class DefDroidSettings extends SettingsPreferenceFragment implements
     private EditTextPreference mAlarmRateLimitPref;
 
     private ListPreference mSensorFreqPref;
+    private EditTextPreference mSensorDurationThrottlePref;
     private EditTextPreference mSensorRateLimitPref;
 
     private ListPreference mNetworkFreqPref;
@@ -118,6 +119,8 @@ public class DefDroidSettings extends SettingsPreferenceFragment implements
 
         mSensorFreqPref = (ListPreference) findPreference("sensor_checker_frequency");
         mSensorFreqPref.setSummary(mSensorFreqPref.getEntry());
+        mSensorDurationThrottlePref = (EditTextPreference) findPreference("sensor_duration_cutoff");
+        mSensorDurationThrottlePref.setSummary(mSensorDurationThrottlePref.getText() + " " + getDurationCutoffUnit());
         mSensorRateLimitPref = (EditTextPreference) findPreference("sensor_rate_limit");
         mSensorRateLimitPref.setSummary(mSensorRateLimitPref.getText() + " " + getRateLimitUnit());
 
@@ -179,6 +182,7 @@ public class DefDroidSettings extends SettingsPreferenceFragment implements
         updateRateLimitEditPref(mAlarmRateLimitPref, settings.alarmRateLimit);
 
         updateFreqListPref(mSensorFreqPref, settings.sensorCheckerFrequency);
+        updateThrottleEditPref(mSensorDurationThrottlePref, settings.sensorDurationThrottle);
         updateRateLimitEditPref(mSensorRateLimitPref, settings.sensorRateLimit);
 
         updateFreqListPref(mNetworkFreqPref, settings.networkCheckerFrequency);
@@ -254,6 +258,7 @@ public class DefDroidSettings extends SettingsPreferenceFragment implements
         mAlarmRateLimitPref.setOnPreferenceChangeListener(this);
 
         mSensorFreqPref.setOnPreferenceChangeListener(this);
+        mSensorDurationThrottlePref.setOnPreferenceChangeListener(this);
         mSensorRateLimitPref.setOnPreferenceChangeListener(this);
 
         mNetworkFreqPref.setOnPreferenceChangeListener(this);
@@ -400,6 +405,14 @@ public class DefDroidSettings extends SettingsPreferenceFragment implements
 
             long freq = (long) (Float.parseFloat(value) * TimeUtils.MILLIS_PER_MINUTE);
             DefenseSettingsUtils.writeSensorCheckerFreq(freq, getContentResolver());
+            return true;
+        } else if (preference == mSensorDurationThrottlePref) {
+            Log.d(TAG, "Sensor duration throttle changed to " + newValue);
+            String value = (String) newValue;
+            updatePrefSummary(mSensorDurationThrottlePref, value + " " + getDurationCutoffUnit());
+
+            long throttle = (long) (Float.parseFloat(value) * TimeUtils.MILLIS_PER_MINUTE);
+            DefenseSettingsUtils.writeSensorDurationThrottle(throttle, getContentResolver());
             return true;
         }  else if (preference == mSensorRateLimitPref) {
             Log.d(TAG, "Sensor rate limit changed to " + newValue);
