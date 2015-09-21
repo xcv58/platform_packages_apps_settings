@@ -73,6 +73,10 @@ public class DefDroidSettings extends SettingsPreferenceFragment implements
     private EditTextPreference mNetworkDataLimitPref;
     private EditTextPreference mNetworkMaxBadnessPref;
 
+    private ListPreference mStorageFreqPref;
+    private EditTextPreference mStorageDataLimitPref;
+    private EditTextPreference mStorageMaxBadnessPref;
+
     private SettingsHandler mHandler;
 
     @Override
@@ -129,6 +133,12 @@ public class DefDroidSettings extends SettingsPreferenceFragment implements
         mNetworkDataLimitPref = (EditTextPreference) findPreference("network_data_limit");
         mNetworkDataLimitPref.setSummary(mNetworkDataLimitPref.getText() + " " + getSizeUnit());
         mNetworkMaxBadnessPref = (EditTextPreference) findPreference("network_max_badness");
+
+        mStorageFreqPref = (ListPreference) findPreference("storage_checker_frequency");
+        mStorageFreqPref.setSummary(mStorageFreqPref.getEntry());
+        mStorageDataLimitPref = (EditTextPreference) findPreference("storage_data_limit");
+        mStorageDataLimitPref.setSummary(mStorageDataLimitPref.getText() + " " + getSizeUnit());
+        mStorageMaxBadnessPref = (EditTextPreference) findPreference("storage_max_badness");
 
         mHandler = new SettingsHandler();
         mHandler.sendEmptyMessage(SettingsHandler.MSG_SYNC_WITH_SECURE_SETTING);
@@ -188,6 +198,10 @@ public class DefDroidSettings extends SettingsPreferenceFragment implements
         updateFreqListPref(mNetworkFreqPref, settings.networkCheckerFrequency);
         updateDataEditPref(mNetworkDataLimitPref, settings.networkDataLimit);
         updateGeneralIntEditPref(mNetworkMaxBadnessPref, settings.networkMaxBadness);
+
+        updateFreqListPref(mStorageFreqPref, settings.storageCheckerFrequency);
+        updateDataEditPref(mStorageDataLimitPref, settings.storageSizeLimit);
+        updateGeneralIntEditPref(mStorageMaxBadnessPref, settings.storageMaxBadness);
     }
 
     private void updateFreqListPref(ListPreference preference, long freqInMillis) {
@@ -264,6 +278,10 @@ public class DefDroidSettings extends SettingsPreferenceFragment implements
         mNetworkFreqPref.setOnPreferenceChangeListener(this);
         mNetworkDataLimitPref.setOnPreferenceChangeListener(this);
         mNetworkMaxBadnessPref.setOnPreferenceChangeListener(this);
+
+        mStorageFreqPref.setOnPreferenceChangeListener(this);
+        mStorageDataLimitPref.setOnPreferenceChangeListener(this);
+        mStorageMaxBadnessPref.setOnPreferenceChangeListener(this);
     }
 
     @Override
@@ -276,7 +294,7 @@ public class DefDroidSettings extends SettingsPreferenceFragment implements
         }  else if (preference == mRateLimitWindowPref) {
             Log.d(TAG, "Rate limit window changed to " + newValue);
             String value = (String) newValue;
-            updatePrefSummary(mRateLimitWindowPref, value);
+            updatePrefSummary(preference, value);
 
             long window = (long) (Float.parseFloat(value) * TimeUtils.MILLIS_PER_MINUTE);
             DefenseSettingsUtils.writeRateLimitWindow(window, getContentResolver());
@@ -284,7 +302,7 @@ public class DefDroidSettings extends SettingsPreferenceFragment implements
         }  else if (preference == mGCWindowPref) {
             Log.d(TAG, "GC window changed to " + newValue);
             String value = (String) newValue;
-            updatePrefSummary(mGCWindowPref, value);
+            updatePrefSummary(preference, value);
 
             long window = (long) (Float.parseFloat(value) * TimeUtils.MILLIS_PER_MINUTE);
             DefenseSettingsUtils.writeGCWindow(window, getContentResolver());
@@ -337,7 +355,7 @@ public class DefDroidSettings extends SettingsPreferenceFragment implements
         } else if (preference == mWakelockFreqPref) {
             Log.d(TAG, "Wakelock checker frequency changed to " + newValue);
             String value = (String) newValue;
-            updatePrefSummary(mWakelockFreqPref, value);
+            updatePrefSummary(preference, value);
 
             long freq = (long) (Float.parseFloat(value) * TimeUtils.MILLIS_PER_MINUTE);
             DefenseSettingsUtils.writeWakelockCheckerFreq(freq, getContentResolver());
@@ -345,7 +363,7 @@ public class DefDroidSettings extends SettingsPreferenceFragment implements
         } else if (preference == mWakelockDurationThrottlePref) {
             Log.d(TAG, "Wakelock duration throttle changed to " + newValue);
             String value = (String) newValue;
-            updatePrefSummary(mWakelockDurationThrottlePref, value + " " + getDurationCutoffUnit());
+            updatePrefSummary(preference, value + " " + getDurationCutoffUnit());
 
             long throttle = (long) (Float.parseFloat(value) * TimeUtils.MILLIS_PER_MINUTE);
             DefenseSettingsUtils.writeWakelockDurationThrottle(throttle, getContentResolver());
@@ -353,7 +371,7 @@ public class DefDroidSettings extends SettingsPreferenceFragment implements
         }  else if (preference == mWakelockRateLimitPref) {
             Log.d(TAG, "Wakelock rate limit changed to " + newValue);
             String value = (String) newValue;
-            updatePrefSummary(mWakelockRateLimitPref, value + " " + getRateLimitUnit());
+            updatePrefSummary(preference, value + " " + getRateLimitUnit());
 
             float rateLimit = Float.parseFloat(value);
             DefenseSettingsUtils.writeWakeLockRateLimit(rateLimit, getContentResolver());
@@ -361,7 +379,7 @@ public class DefDroidSettings extends SettingsPreferenceFragment implements
         } else if (preference == mLocationFreqPref) {
             Log.d(TAG, "Location checker frequency changed to " + newValue);
             String value = (String) newValue;
-            updatePrefSummary(mLocationFreqPref, value);
+            updatePrefSummary(preference, value);
 
             long freq = (long) (Float.parseFloat(value) * TimeUtils.MILLIS_PER_MINUTE);
             DefenseSettingsUtils.writeLocationCheckerFreq(freq, getContentResolver());
@@ -369,7 +387,7 @@ public class DefDroidSettings extends SettingsPreferenceFragment implements
         } else if (preference == mLocationDurationThrottlePref) {
             Log.d(TAG, "Location duration throttle changed to " + newValue);
             String value = (String) newValue;
-            updatePrefSummary(mLocationDurationThrottlePref, value + " " + getDurationCutoffUnit());
+            updatePrefSummary(preference, value + " " + getDurationCutoffUnit());
 
             long throttle = (long) (Float.parseFloat(value) * TimeUtils.MILLIS_PER_MINUTE);
             DefenseSettingsUtils.writeLocationDurationThrottle(throttle, getContentResolver());
@@ -377,7 +395,7 @@ public class DefDroidSettings extends SettingsPreferenceFragment implements
         }  else if (preference == mLocationRateLimitPref) {
             Log.d(TAG, "Location rate limit changed to " + newValue);
             String value = (String) newValue;
-            updatePrefSummary(mLocationRateLimitPref, value + " " + getRateLimitUnit());
+            updatePrefSummary(preference, value + " " + getRateLimitUnit());
 
             float rateLimit = Float.parseFloat(value);
             DefenseSettingsUtils.writeLocationRateLimit(rateLimit, getContentResolver());
@@ -385,7 +403,7 @@ public class DefDroidSettings extends SettingsPreferenceFragment implements
         } else if (preference == mAlarmFreqPref) {
             Log.d(TAG, "Alarm checker frequency changed to " + newValue);
             String value = (String) newValue;
-            updatePrefSummary(mAlarmFreqPref, value);
+            updatePrefSummary(preference, value);
 
             long freq = (long) (Float.parseFloat(value) * TimeUtils.MILLIS_PER_MINUTE);
             DefenseSettingsUtils.writeAlarmCheckerFreq(freq, getContentResolver());
@@ -393,7 +411,7 @@ public class DefDroidSettings extends SettingsPreferenceFragment implements
         }  else if (preference == mAlarmRateLimitPref) {
             Log.d(TAG, "Alarm rate limit changed to " + newValue);
             String value = (String) newValue;
-            updatePrefSummary(mAlarmRateLimitPref, value + " " + getRateLimitUnit());
+            updatePrefSummary(preference, value + " " + getRateLimitUnit());
 
             float rateLimit = Float.parseFloat(value);
             DefenseSettingsUtils.writeAlarmRateLimit(rateLimit, getContentResolver());
@@ -401,7 +419,7 @@ public class DefDroidSettings extends SettingsPreferenceFragment implements
         }  else if (preference == mSensorFreqPref) {
             Log.d(TAG, "Sensor checker frequency changed to " + newValue);
             String value = (String) newValue;
-            updatePrefSummary(mSensorFreqPref, value);
+            updatePrefSummary(preference, value);
 
             long freq = (long) (Float.parseFloat(value) * TimeUtils.MILLIS_PER_MINUTE);
             DefenseSettingsUtils.writeSensorCheckerFreq(freq, getContentResolver());
@@ -409,7 +427,7 @@ public class DefDroidSettings extends SettingsPreferenceFragment implements
         } else if (preference == mSensorDurationThrottlePref) {
             Log.d(TAG, "Sensor duration throttle changed to " + newValue);
             String value = (String) newValue;
-            updatePrefSummary(mSensorDurationThrottlePref, value + " " + getDurationCutoffUnit());
+            updatePrefSummary(preference, value + " " + getDurationCutoffUnit());
 
             long throttle = (long) (Float.parseFloat(value) * TimeUtils.MILLIS_PER_MINUTE);
             DefenseSettingsUtils.writeSensorDurationThrottle(throttle, getContentResolver());
@@ -417,7 +435,7 @@ public class DefDroidSettings extends SettingsPreferenceFragment implements
         }  else if (preference == mSensorRateLimitPref) {
             Log.d(TAG, "Sensor rate limit changed to " + newValue);
             String value = (String) newValue;
-            updatePrefSummary(mSensorRateLimitPref, value + " " + getRateLimitUnit());
+            updatePrefSummary(preference, value + " " + getRateLimitUnit());
 
             float rateLimit = Float.parseFloat(value);
             DefenseSettingsUtils.writeSensorRateLimit(rateLimit, getContentResolver());
@@ -425,7 +443,7 @@ public class DefDroidSettings extends SettingsPreferenceFragment implements
         } else if (preference == mNetworkFreqPref) {
             Log.d(TAG, "Network checker frequency changed to " + newValue);
             String value = (String) newValue;
-            updatePrefSummary(mNetworkFreqPref, value);
+            updatePrefSummary(preference, value);
 
             long freq = (long) (Float.parseFloat(value) * TimeUtils.MILLIS_PER_MINUTE);
             DefenseSettingsUtils.writeNetworkCheckerFreq(freq, getContentResolver());
@@ -433,7 +451,7 @@ public class DefDroidSettings extends SettingsPreferenceFragment implements
         } else if (preference == mNetworkDataLimitPref) {
             Log.d(TAG, "Network data limit changed to " + newValue);
             String value = (String) newValue;
-            updatePrefSummary(mNetworkDataLimitPref, value  + " " + getSizeUnit());
+            updatePrefSummary(preference, value  + " " + getSizeUnit());
 
             long dataLimit = (long) (Float.parseFloat(value) * NetUtils.MB);
             DefenseSettingsUtils.writeNetworkDataLimit(dataLimit, getContentResolver());
@@ -441,10 +459,34 @@ public class DefDroidSettings extends SettingsPreferenceFragment implements
         } else if (preference == mNetworkMaxBadnessPref) {
             Log.d(TAG, "Network max badness changed to " + newValue);
             String value = (String) newValue;
-            updatePrefSummary(mNetworkMaxBadnessPref, value);
+            updatePrefSummary(preference, value);
 
             int badness = Integer.parseInt(value);
             DefenseSettingsUtils.writeNetworkMaxBadness(badness, getContentResolver());
+            return true;
+        } else if (preference == mStorageFreqPref) {
+            Log.d(TAG, "Storage checker frequency changed to " + newValue);
+            String value = (String) newValue;
+            updatePrefSummary(preference, value);
+
+            long freq = (long) (Float.parseFloat(value) * TimeUtils.MILLIS_PER_MINUTE);
+            DefenseSettingsUtils.writeStorageCheckerFreq(freq, getContentResolver());
+            return true;
+        } else if (preference == mStorageDataLimitPref) {
+            Log.d(TAG, "Storage data limit changed to " + newValue);
+            String value = (String) newValue;
+            updatePrefSummary(preference, value  + " " + getSizeUnit());
+
+            long dataLimit = (long) (Float.parseFloat(value) * NetUtils.MB);
+            DefenseSettingsUtils.writeStorageDataLimit(dataLimit, getContentResolver());
+            return true;
+        } else if (preference == mStorageMaxBadnessPref) {
+            Log.d(TAG, "Network max badness changed to " + newValue);
+            String value = (String) newValue;
+            updatePrefSummary(preference, value);
+
+            int badness = Integer.parseInt(value);
+            DefenseSettingsUtils.writeStorageMaxBadness(badness, getContentResolver());
             return true;
         }
         Log.d(TAG, "Unrecognized preference change");
