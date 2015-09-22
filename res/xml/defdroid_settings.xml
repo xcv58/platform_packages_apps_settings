@@ -181,7 +181,7 @@
             <EditTextPreference
                     android:key="network_max_badness"
                     android:title="@string/defense_pref_title_network_max_badness"
-                    android:defaultValue="3"
+                    android:defaultValue="4"
                     android:selectAllOnFocus="true"
                     android:inputType="numberDecimal"
                     android:singleLine="true"
