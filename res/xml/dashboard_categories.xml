@@ -154,6 +154,14 @@
             android:id="@+id/personal_section"
             android:title="@string/header_category_personal" >
 
+        <!-- PhoneLab -->
+        <dashboard-tile
+                android:id="@+id/phonelab_settings"
+                android:title="@string/phonelab_settings"
+                android:fragment="com.android.settings.PhoneLabSettings"
+                android:icon="@drawable/ic_settings_phonelab"
+                />
+
         <!-- Location -->
         <dashboard-tile
                 android:id="@+id/location_settings"

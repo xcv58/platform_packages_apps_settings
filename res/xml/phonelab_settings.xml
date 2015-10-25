@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <EditTextPreference
+        android:title="@string/your_name"
+        android:key="name"
+        android:summary="@string/your_name_summary">
+    </EditTextPreference>
+
+    <ListPreference
+        android:title="@string/your_age"
+        android:summary="@string/your_age"
+        android:key="age"
+        android:defaultValue="-1"
+        android:entries="@array/ageValues"
+        android:entryValues="@array/ageValues" />
+
+    <CheckBoxPreference
+        android:title="@string/have_laptop"
+        android:key="have_laptop">
+    </CheckBoxPreference>
+
+    <CheckBoxPreference
+        android:title="@string/have_desktop"
+        android:key="have_desktop">
+    </CheckBoxPreference>
+
+    <CheckBoxPreference
+        android:title="@string/have_another_phone"
+        android:key="have_another_phone">
+    </CheckBoxPreference>
+</PreferenceScreen>

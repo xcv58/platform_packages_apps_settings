@@ -260,6 +260,7 @@ public class SettingsActivity extends Activity
             UserDictionarySettings.class.getName(),
             HomeSettings.class.getName(),
             DisplaySettings.class.getName(),
+            PhoneLabSettings.class.getName(),
             DeviceInfoSettings.class.getName(),
             ManageApplications.class.getName(),
             ProcessStatsUi.class.getName(),
