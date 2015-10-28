@@ -16,64 +16,34 @@
 
 package com.android.settings;
 
-import com.android.internal.view.RotationPolicy;
-import com.android.settings.notification.DropDownPreference;
-import com.android.settings.notification.DropDownPreference.Callback;
-import com.android.settings.search.BaseSearchIndexProvider;
-import com.android.settings.search.Indexable;
-
-import android.app.Activity;
-import android.app.ActivityManagerNative;
-import android.app.Dialog;
-import android.app.admin.DevicePolicyManager;
-import android.content.ContentResolver;
-import android.content.Context;
-import android.content.res.Configuration;
-import android.content.res.Resources;
-import android.hardware.Sensor;
-import android.hardware.SensorManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.RemoteException;
-import android.os.SystemProperties;
 import android.preference.CheckBoxPreference;
-import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
-import android.preference.Preference.OnPreferenceClickListener;
-import android.preference.PreferenceActivity;
-import android.preference.PreferenceScreen;
-import android.preference.SwitchPreference;
-import android.provider.SearchIndexableResource;
 import android.provider.Settings;
-import android.text.TextUtils;
 import android.util.Log;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class PhoneLabSettings extends SettingsPreferenceFragment implements
         Preference.OnPreferenceChangeListener {
     private static final String TAG = "PhoneLabSettings";
 
     private static final String KEY_NAME = "name";
+    private static final String KEY_GENDER = "gender";
     private static final String KEY_AGE = "age";
     private static final String KEY_LAPTOP = "have_laptop";
-    private static final String KEY_DESKTOP = "have_laptop";
+    private static final String KEY_DESKTOP = "have_desktop";
     private static final String KEY_ANOTHER_PHONE = "have_another_phone";
 
-    private EditTextPreference mNamePreference;
+    private ListPreference mAgePreference;
+    private ListPreference mGenderPreference;
     private CheckBoxPreference mLaptopPreference;
     private CheckBoxPreference mDesktopPreference;
     private CheckBoxPreference mAnotherPhonePreference;
-    private ListPreference mAgePreference;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
-        final Activity activity = getActivity();
-        final ContentResolver resolver = activity.getContentResolver();
-
         addPreferencesFromResource(R.xml.phonelab_settings);
         updateState();
     }
@@ -90,27 +60,24 @@ public class PhoneLabSettings extends SettingsPreferenceFragment implements
     }
 
     private void updateState() {
-        mNamePreference = (EditTextPreference) init(mNamePreference, KEY_NAME);
-        String name = null;
-        if (mNamePreference != null) {
-            name = mNamePreference.getText();
-            updateName(name);
-        }
-
-        mAgePreference = (ListPreference) init(mAgePreference, KEY_AGE);
+        mAgePreference = (ListPreference) getPreference(mAgePreference, KEY_AGE);
         if (mAgePreference != null) {
             String age = mAgePreference.getValue();
             mAgePreference.setSummary(age);
         }
 
-        mLaptopPreference = (CheckBoxPreference) init(mLaptopPreference, KEY_LAPTOP);
-        mDesktopPreference = (CheckBoxPreference) init(mDesktopPreference, KEY_DESKTOP);
-        mAnotherPhonePreference = (CheckBoxPreference) init(mAnotherPhonePreference, KEY_ANOTHER_PHONE);
+        mGenderPreference = (ListPreference) getPreference(mGenderPreference, KEY_GENDER);
+        if (mGenderPreference != null) {
+            String gender = mGenderPreference.getValue();
+            mGenderPreference.setSummary(gender);
+        }
 
-        Log.d(TAG, "update: " + name + ", " + mLaptopPreference.isChecked());
+        mLaptopPreference = (CheckBoxPreference) getPreference(mLaptopPreference, KEY_LAPTOP);
+        mDesktopPreference = (CheckBoxPreference) getPreference(mDesktopPreference, KEY_DESKTOP);
+        mAnotherPhonePreference = (CheckBoxPreference) getPreference(mAnotherPhonePreference, KEY_ANOTHER_PHONE);
     }
 
-    private Preference init(Preference preference, String key) {
+    private Preference getPreference(Preference preference, String key) {
         if (preference == null) {
             preference = findPreference(key);
             preference.setOnPreferenceChangeListener(this);
@@ -118,21 +85,52 @@ public class PhoneLabSettings extends SettingsPreferenceFragment implements
         return preference;
     }
 
-    private void updateName(String name) {
-        if (name != null && !name.isEmpty()) {
-            mNamePreference.setSummary(name);
-        } else {
-            mNamePreference.setSummary(R.string.your_name_summary);
+    private void updateGender(String gender) {
+        if (gender == null || gender.isEmpty()) {
+            gender = getString(R.string.unknown);
         }
+        mGenderPreference.setSummary(gender);
+        Settings.Global.putString(getActivity().getContentResolver(),
+                Settings.Global.PHONELAB_GENDER, gender);
+    }
+
+    private void updateAge(String age) {
+        if (age == null || age.isEmpty()) {
+            age = getString(R.string.unknown);
+        }
+        mAgePreference.setSummary(age);
+        Settings.Global.putString(getActivity().getContentResolver(),
+                Settings.Global.PHONELAB_AGE, age);
+    }
+
+    private void updateLaptop(String value) {
+        Settings.Global.putString(getActivity().getContentResolver(),
+                Settings.Global.PHONELAB_LAPTOP, value);
+    }
+
+    private void updateDesktop(String value) {
+        Settings.Global.putString(getActivity().getContentResolver(),
+                Settings.Global.PHONELAB_DESKTOP, value);
+    }
+
+    private void updateAnotherPhone(String value) {
+        Settings.Global.putString(getActivity().getContentResolver(),
+                Settings.Global.PHONELAB_ANOTHER_PHONE, value);
     }
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         Log.d(TAG, "onPreferenceChange: " + preference + " new value: " + newValue);
-        if (preference == mNamePreference) {
-            updateName(newValue.toString());
-        } else if (preference == mAgePreference) {
-            mAgePreference.setSummary(newValue.toString());
+        if (preference == mAgePreference) {
+            updateAge(newValue.toString());
+        } else if (preference == mGenderPreference) {
+            updateGender(newValue.toString());
+        } else if (preference == mLaptopPreference) {
+            updateLaptop(newValue.toString());
+        } else if (preference == mDesktopPreference) {
+            updateDesktop(newValue.toString());
+        } else if (preference == mAnotherPhonePreference) {
+            updateAnotherPhone(newValue.toString());
         }
         return true;
     }

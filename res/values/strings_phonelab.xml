@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="phonelab_settings">PhoneLab</string>
-    <string name="phonelab_settings_title">PhoneLab</string>
 
-    <string name="your_name">Your name</string>
-    <string name="your_name_summary">Please provide your name!</string>
-    <string name="your_age">Your age</string>
+    <string name="your_gender">Gender?</string>
+    <string name="your_age">Age?</string>
 
-    <string name="have_laptop">Do you have Laptop?</string>
-    <string name="have_desktop">Do you have Desktop?</string>
+    <string name="unknown">unknown</string>
+    <string name="have_laptop">Do you have laptop?</string>
+    <string name="have_desktop">Do you have desktop?</string>
     <string name="have_another_phone">Do you have another phone?</string>
 
-    <string-array name="ageValues">
+    <string-array name="gender_list">
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+
+    <string-array name="age_values">
         <item>10</item>
         <item>11</item>
         <item>12</item>
