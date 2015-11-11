@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="phonelab_settings">PhoneLab</string>
+    <string name="phonelab_settings">Demography</string>
 
     <string name="your_gender">Gender?</string>
     <string name="your_age">Age?</string>
